@@ -19,6 +19,15 @@ playerEl.textContent = player.name + ": $" + player.chips
 let standardDeck = []
 let gameDeck = []
 
+function startGame() {
+    isAlive = true
+    shuffleCards()
+    let firstCard = gameDeck.pop()
+    let secondCard = gameDeck.pop()
+    hand = [firstCard, secondCard]
+    sum = firstCard + secondCard
+    renderGame()
+}
 function resetDeck(){
     standardDeck = [1,1,1,1,
         2,2,2,2,
@@ -50,27 +59,7 @@ function shuffleCards(){
         
 
     }
-
-    for(let i = 0; i<5; i++){
-        firstFive += gameDeck[i] + " "
-    }
-
-    deckEl.textContent = "Deck = " + firstFive
-    
-        }
-
-/* Rewrite both functions to utalize actual deck logic
-function getRandomCard() {
-    let randomNumber = Math.floor( Math.random()*13 ) + 1
-    if (randomNumber > 10) {
-        return 10
-    } else if (randomNumber === 1) {
-        return 11
-    } else {
-        return randomNumber
-    }
 }
-*/
 
 function newCard() {
     if (isAlive === true && hasBlackJack === false) {
@@ -85,21 +74,13 @@ function newCard() {
     }
 }
 
-function startGame() {
-    isAlive = true
-    shuffleCards()
-    let firstCard = gameDeck.pop()
-    let secondCard = gameDeck.pop()
-    hand = [firstCard, secondCard]
-    sum = firstCard + secondCard
-    renderGame()
-}
-
 function renderGame() {
     cardsEl.textContent = "Cards: "
     for (let i = 0; i < hand.length; i++) {
         cardsEl.textContent += hand[i] + " "
     }
+
+    deckEl.textContent = "Deck = " + gameDeck.length
     
     sumEl.textContent = "Sum: " + sum
     if (sum <= 20) {

@@ -13,6 +13,11 @@ let sumEl = document.getElementById("sum-el")
 let cardsEl = document.getElementById("cards-el")
 let playerEl = document.getElementById("player-el")
 let deckEl = document.getElementById("deck-el")
+
+let dealerEl = document.getElementById("dealer-el")
+let dealerHand = []
+
+
 playerEl.textContent = player.name + ": $" + player.chips
 
 
@@ -21,11 +26,11 @@ let gameDeck = []
 
 function startGame() {
     isAlive = true
+    hand = []
+    dealerHand = []
     shuffleCards()
-    let firstCard = gameDeck.pop()
-    let secondCard = gameDeck.pop()
-    hand = [firstCard, secondCard]
-    sum = firstCard + secondCard
+    deal()
+    sum = hand[0] + hand[1]
     renderGame()
 }
 function resetDeck(){
@@ -42,6 +47,8 @@ function resetDeck(){
         10,10,10,10, //Jacks
         10,10,10,10, //Queen
         10,10,10,10] //King
+
+    
 }
 
 function shuffleCards(){
@@ -59,6 +66,16 @@ function shuffleCards(){
         
 
     }
+}
+
+function deal(){
+
+    dealerHand[0] = gameDeck.pop()
+    hand[0] = gameDeck.pop()
+
+    dealerHand[1] = gameDeck.pop()
+    hand[1] = gameDeck.pop()
+
 }
 
 function newCard() {
@@ -79,6 +96,14 @@ function renderGame() {
     for (let i = 0; i < hand.length; i++) {
         cardsEl.textContent += hand[i] + " "
     }
+
+    dealerEl.textContent = "Cards: "
+    for(let i = 0; i < dealerHand.length; i++){
+        dealerEl.textContent += dealerHand[i] + " "
+    }
+
+    
+    
 
     deckEl.textContent = "Deck = " + gameDeck.length
     

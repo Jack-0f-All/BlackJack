@@ -26,11 +26,9 @@ let gameDeck = []
 
 function startGame() {
     isAlive = true
-    hand = []
-    dealerHand = []
     shuffleCards()
     deal()
-    sum = hand[0] + hand[1]
+    
     renderGame()
 }
 function resetDeck(){
@@ -51,7 +49,7 @@ function resetDeck(){
     
 }
 
-function shuffleCards(){
+function shuffleCards(numberOfDecks){
     let randomCard = 0
     let firstFive = ""
     let randomIndex = 0
@@ -59,30 +57,40 @@ function shuffleCards(){
     gameDeck = []
     resetDeck()
 
+
+        
     for(let i = 0; i<52; i++){
         randomIndex = Math.floor( Math.random()*standardDeck.length)
         gameDeck.push(standardDeck[randomIndex])
         standardDeck.splice(randomIndex, 1)
-        
-
     }
+
+    
 }
 
 function deal(){
 
+    isAlive = true
+    hasBlackJack = false
+    hand = []
+    dealerHand = []
+
+    if(gameDeck.length < 15){
+        shuffleCards()
+    }
+
+  
     dealerHand[0] = gameDeck.pop()
     hand[0] = gameDeck.pop()
 
     dealerHand[1] = gameDeck.pop()
     hand[1] = gameDeck.pop()
-
+    sum = hand[0] + hand[1]
+    renderGame()
 }
 
 function newCard() {
     if (isAlive === true && hasBlackJack === false) {
-        
-        if(gameDeck.length<1)
-            shuffleCards()
 
         let card = gameDeck.pop()
         sum += card
@@ -101,9 +109,6 @@ function renderGame() {
     for(let i = 0; i < dealerHand.length; i++){
         dealerEl.textContent += dealerHand[i] + " "
     }
-
-    
-    
 
     deckEl.textContent = "Deck = " + gameDeck.length
     

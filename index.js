@@ -8,11 +8,19 @@ let sum = 0
 let hasBlackJack = false
 let isAlive = false
 let message = ""
+
+//Buttons
+let startEl = document.getElementById("startButton-el")
+let dealEl = document.getElementById("dealButton-el")
+let newHandEl = document.getElementById("newButton-el")
+
+//Page elements
 let messageEl = document.getElementById("message-el")
 let sumEl = document.getElementById("sum-el")
 let cardsEl = document.getElementById("cards-el")
 let playerEl = document.getElementById("player-el")
 let deckEl = document.getElementById("deck-el")
+
 
 let dealerEl = document.getElementById("dealer-el")
 let dealerHand = []
@@ -26,6 +34,18 @@ let gameDeck = []
 
 function startGame() {
     isAlive = true
+    startEl.textContent= "NEW GAME"
+    
+
+//Added to learn hiding elements. May use later on.
+    /*
+    newHandEl.removeAttribute("hidden")
+    dealEl.removeAttribute("hidden")
+
+    */
+
+    document.getElementById("game-el").style.visibility = "visible"
+
     shuffleCards()
     deal()
     

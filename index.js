@@ -4,7 +4,7 @@ let player = {
     chips: 200
 }
 let hand = []
-let sum = 0
+let playerSum = 0
 let hasBlackJack = false
 let isAlive = false
 let message = ""
@@ -23,7 +23,9 @@ let deckEl = document.getElementById("deck-el")
 
 
 let dealerEl = document.getElementById("dealer-el")
+let dealerSumEl = document.getElementById("dealerSum-el")
 let dealerHand = []
+let dealerSum = 0
 
 
 playerEl.textContent = player.name + ": $" + player.chips
@@ -89,7 +91,7 @@ function shuffleCards(numberOfDecks){
 }
 
 function deal(){
-
+    
     isAlive = true
     hasBlackJack = false
     hand = []
@@ -105,7 +107,7 @@ function deal(){
 
     dealerHand[1] = gameDeck.pop()
     hand[1] = gameDeck.pop()
-    sum = hand[0] + hand[1]
+    playerSum = hand[0] + hand[1]
     renderGame()
 }
 
@@ -113,13 +115,18 @@ function newCard() {
     if (isAlive === true && hasBlackJack === false) {
 
         let card = gameDeck.pop()
-        sum += card
+        playerSum += card
         hand.push(card)
         renderGame()        
     }
 }
 
 function renderGame() {
+    updateSum()
+
+    deckEl.textContent = "Deck = " + gameDeck.length
+
+    //dispaly cards in hand for player and dealer
     cardsEl.textContent = "Cards: "
     for (let i = 0; i < hand.length; i++) {
         cardsEl.textContent += hand[i] + " "
@@ -130,12 +137,14 @@ function renderGame() {
         dealerEl.textContent += dealerHand[i] + " "
     }
 
-    deckEl.textContent = "Deck = " + gameDeck.length
-    
-    sumEl.textContent = "Sum: " + sum
-    if (sum <= 20) {
+    //display sum of hands for both
+    sumEl.textContent = "Sum: " + playerSum
+    dealerSumEl.textContent = "Sum: " + dealerSum
+
+    //update gamestate and message
+    if (playerSum <= 20) {
         message = "Do you want to draw a new card?"
-    } else if (sum === 21) {
+    } else if (playerSum === 21) {
         message = "You've got Blackjack!"
         hasBlackJack = true
     } else {
@@ -143,6 +152,18 @@ function renderGame() {
         isAlive = false
     }
     messageEl.textContent = message
+}
+
+function updateSum(){
+    playerSum=0
+    dealerSum=0
+    for(let card of hand){
+        playerSum+=card
+    }
+
+    for(let card of dealerHand){
+        dealerSum+=card
+    }
 }
 
 

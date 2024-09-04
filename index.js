@@ -7,6 +7,7 @@ let hand = []
 let playerSum = 0
 let hasBlackJack = false
 let isAlive = false
+let dealerAlive = true
 let message = ""
 
 //Buttons
@@ -20,6 +21,7 @@ let sumEl = document.getElementById("sum-el")
 let cardsEl = document.getElementById("cards-el")
 let playerEl = document.getElementById("player-el")
 let deckEl = document.getElementById("deck-el")
+
 
 
 let dealerEl = document.getElementById("dealer-el")
@@ -36,6 +38,7 @@ let gameDeck = []
 
 function startGame() {
     isAlive = true
+    dealerAlive = true
     startEl.textContent= "NEW GAME"
     
 
@@ -147,9 +150,11 @@ function renderGame() {
     } else if (playerSum === 21) {
         message = "You've got Blackjack!"
         hasBlackJack = true
+        
     } else {
         message = "You're out of the game!"
         isAlive = false
+        
     }
     messageEl.textContent = message
 }
@@ -164,6 +169,42 @@ function updateSum(){
     for(let card of dealerHand){
         dealerSum+=card
     }
+}
+
+function dealerTurn(){
+    while(dealerSum<17){
+        dealerHand.push(gameDeck.pop())
+        updateSum()
+    }
+    renderGame()
+    if(dealerSum>21){
+        dealerAlive=false
+    }
+
+    checkWinner()
+}
+function checkWinner(){
+    
+    if(hasBlackJack){
+        console.log("Player has Blackjack!...")
+    }
+    else if(isAlive){
+        if(!dealerAlive){
+            console.log("Player wins...")
+        }
+        else if(dealerSum < playerSum){
+            console.log("Player wins...")
+        }
+        else{
+            console.log("Player loses...")
+        }
+    }
+    else{
+        console.log("Player loses")
+    }
+
+    console.log("PlayerSum: "+playerSum)
+    console.log("DealerSum: "+dealerSum)
 }
 
 

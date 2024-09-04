@@ -9,6 +9,7 @@ let hasBlackJack = false
 let isAlive = false
 let dealerAlive = true
 let message = ""
+let bet = 0
 
 //Buttons
 let startEl = document.getElementById("startButton-el")
@@ -30,7 +31,7 @@ let dealerHand = []
 let dealerSum = 0
 
 
-playerEl.textContent = player.name + ": $" + player.chips
+
 
 
 let standardDeck = []
@@ -52,7 +53,7 @@ function startGame() {
     document.getElementById("game-el").style.visibility = "visible"
 
     shuffleCards()
-    deal()
+    //deal()
     
     renderGame()
 }
@@ -94,24 +95,34 @@ function shuffleCards(numberOfDecks){
 }
 
 function deal(){
+
+    bet = document.getElementById("wager-el").value;
+
+    if(bet != "" && bet <= player.chips){
+        document.getElementById("wager-el").value="";
+
+        isAlive = true
+        hasBlackJack = false
+        hand = []
+        dealerHand = []
+        player.chips = player.chips-bet
+
+        if(gameDeck.length < 15){
+            shuffleCards()
+        }
+
     
-    isAlive = true
-    hasBlackJack = false
-    hand = []
-    dealerHand = []
+        dealerHand[0] = gameDeck.pop()
+        hand[0] = gameDeck.pop()
 
-    if(gameDeck.length < 15){
-        shuffleCards()
+        dealerHand[1] = gameDeck.pop()
+        hand[1] = gameDeck.pop()
+        playerSum = hand[0] + hand[1]
+        renderGame()
     }
-
-  
-    dealerHand[0] = gameDeck.pop()
-    hand[0] = gameDeck.pop()
-
-    dealerHand[1] = gameDeck.pop()
-    hand[1] = gameDeck.pop()
-    playerSum = hand[0] + hand[1]
-    renderGame()
+    else{
+        console.log("Place a valid bet")
+    }
 }
 
 function newCard() {
@@ -157,6 +168,8 @@ function renderGame() {
         
     }
     messageEl.textContent = message
+
+    playerEl.textContent = player.name + ": $" + player.chips
 }
 
 function updateSum(){
@@ -205,6 +218,13 @@ function checkWinner(){
 
     console.log("PlayerSum: "+playerSum)
     console.log("DealerSum: "+dealerSum)
+}
+
+function setBet(){
+    bet = document.getElementById("wager-el").value;
+
+    
+
 }
 
 
